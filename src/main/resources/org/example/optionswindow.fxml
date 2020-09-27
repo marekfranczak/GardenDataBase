@@ -13,16 +13,16 @@
 
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ToggleButton?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:controller="org.example.controll.optionsWindowController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
          <right>
             <VBox prefHeight="400.0" prefWidth="180.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="Edytuj" />
-                  <Button mnemonicParsing="false" text="Zapisz zaminy" />
-                  <Button mnemonicParsing="false" text="Poradnik" />
-                  <Button mnemonicParsing="false" text="Informacje" />
+                  <Button fx:id="editButton" onAction="#edit" mnemonicParsing="false" text="Edytuj" />
+                  <Button fx:id="saveButton" onAction="#saveChanges" mnemonicParsing="false" text="Zapisz zaminy" />
+                  <Button fx:id="guideButton" onAction="#openGuide"  mnemonicParsing="false" text="Poradnik" />
+                  <Button fx:id="infoButton" onAction="#openInfoWindow" mnemonicParsing="false" text="Informacje" />
                </children>
             </VBox>
          </right>
