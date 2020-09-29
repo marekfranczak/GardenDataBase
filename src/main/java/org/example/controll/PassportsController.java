@@ -290,7 +290,7 @@ public class PassportsController implements Initializable {
                     cell3.setBorderColor(BaseColor.WHITE);
 
                     PdfPCell cellDown = new PdfPCell(new Paragraph());
-                    Chunk chunk2 = new Chunk("A. "+flower.getNameLA()+"\nB. PL-2X/90/X321\nC. "+flower.getFlowerId()+"\nD. PL", font1);
+                    Chunk chunk2 = new Chunk("A. "+flower.getNameLA()+"\nB. Numer gospodarstwa\nC. "+flower.getFlowerId()+"\nD. PL", font1);
                     cellDown.addElement(chunk2);
                     cellDown.setBorderColor(BaseColor.WHITE);
                     PdfPTable pt = new PdfPTable(1);

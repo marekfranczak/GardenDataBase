@@ -2,7 +2,6 @@ package org.example.data;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.example.Main;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -36,15 +35,9 @@ public class DataSource {
     private final String COLUMN_SHOP_ADDRESS = "address";
     private final String COLUMN_SHOP_REMOVED = "removed";
 
-    public String getPassportPath() {
-        return passportPath;
-    }
-
-    public void setPassportPath(String passportPath) {
-        this.passportPath = passportPath;
-    }
-
     private String passportPath = "C:\\Users\\FM\\IdeaProjects\\GOTOWE_PROJEKTY\\GardenDataBase";
+    private String pathDB;
+    private String gardenNumber;
 
     private Connection connection;
 
@@ -359,5 +352,29 @@ public class DataSource {
             System.out.println("Problem z dodaniem kwiatów.. " + e.getMessage());
             return false;
         }
+    }
+
+    public String getPassportPath() {
+        return passportPath;
+    }
+
+    public void setPassportPath(String passportPath) {
+        this.passportPath = passportPath;
+    }
+
+    public String getPathDB() {
+        return pathDB;
+    }
+
+    public void setPathDB(String pathDB) {
+        this.pathDB = pathDB;
+    }
+
+    public String getGardenNumber() {
+        return gardenNumber;
+    }
+
+    public void setGardenNumber(String gardenNumber) {
+        this.gardenNumber = gardenNumber;
     }
 }

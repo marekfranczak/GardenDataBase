@@ -19,8 +19,7 @@
          <right>
             <VBox prefHeight="400.0" prefWidth="180.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="editButton" onAction="#edit" mnemonicParsing="false" text="Edytuj" />
-                  <Button fx:id="saveButton" onAction="#saveChanges" mnemonicParsing="false" text="Zapisz zaminy" />
+                  <ToggleButton fx:id="editButton" onAction="#edit" mnemonicParsing="false" text="Edytuj" />
                   <Button fx:id="guideButton" onAction="#openGuide"  mnemonicParsing="false" text="Poradnik" />
                   <Button fx:id="infoButton" onAction="#openInfoWindow" mnemonicParsing="false" text="Informacje" />
                </children>
@@ -38,13 +37,13 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField />
-                  <TextField GridPane.rowIndex="1" />
-                  <Label text="Ścieżka zapisu paszportów" GridPane.columnIndex="1" />
-                  <Label text="Ścieżka do bazy danych" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField GridPane.rowIndex="2" />
+                  <TextField fx:id="pdfPath"/>
+                  <TextField fx:id="databasePath" GridPane.rowIndex="1" />
+                  <Button fx:id="pathPdfChooserButton" text="Ścieżka zapisu paszportów" GridPane.columnIndex="1" />
+                  <Button fx:id="pathDBChooserButton" text="Ścieżka do bazy danych" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="gardenNumber" GridPane.rowIndex="2" />
                   <Label text="Numer gospodarstwa" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                   <ToggleButton text="Włączone" GridPane.rowIndex="3"/>
+                   <ToggleButton fx:id="hintsButton" text="Włączone" selected="true" GridPane.rowIndex="3"/>
                    <Label text="Włącz podpowiedzi" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
                </children>
             </GridPane>
