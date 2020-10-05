@@ -3,6 +3,7 @@ package org.example.data;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,7 +18,6 @@ public class DataSource {
     private final String COLUMN_FLOWER_ID = "flowerId";
     private final String COLUMN_FLOWER_NAME_PL = "namePL";
     private final String COLUMN_FLOWER_NAME_LA = "nameLA";
-    private final String COLUMN_FLOWER_REMOVED = "removed";
 
     public final String TABLE_FLOWERS_ARRANGEMENTS = "flowersArrangement";
     private final String COLUMN_FLOWERS_ARRANGEMENT_PASSPORT_ID = "passportId";
@@ -27,23 +27,22 @@ public class DataSource {
     private final String COLUMN_PASSPORT_ID = "passportId";
     private final String COLUMN_PASSPORT_SHOP_ID = "shopId";
     private final String COLUMN_PASSPORT_DATE = "date";
-    private final String COLUMN_PASSPORT_REMOVED = "removed";
 
     public final String TABLE_SHOPS = "shops";
     private final String COLUMN_SHOP_ID = "shopId";
     private final String COLUMN_SHOP_NAME = "name";
     private final String COLUMN_SHOP_ADDRESS = "address";
-    private final String COLUMN_SHOP_REMOVED = "removed";
 
-    private String passportPath = "C:\\Users\\FM\\IdeaProjects\\GOTOWE_PROJEKTY\\GardenDataBase";
-    private String pathDB;
+    private String passportPath;
     private String gardenNumber;
+    private int tipsAndTricks;
 
     private Connection connection;
 
     private static DataSource instance = new DataSource();
 
-    private DataSource(){}
+    private DataSource(){
+    }
 
     public static DataSource getInstance(){
         return instance;
@@ -52,7 +51,16 @@ public class DataSource {
     public boolean open(){
         try{
             connection = DriverManager.getConnection(CONNECTION_STRING);
-            System.out.println("Połączono z bazą danych.");
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT * FROM programData");
+            while (result.next()) {
+                passportPath = result.getString("pdfPath");
+                System.out.println(passportPath);
+                gardenNumber = result.getString("gardenNumber");
+                System.out.println(gardenNumber);
+                tipsAndTricks = result.getInt("tipsAndTricks");
+                System.out.println(tipsAndTricks);
+            }
             return true;
         } catch (SQLException e){
             System.out.println("Nie można się połączyć z bazą danych: "+e.getMessage());
@@ -354,6 +362,18 @@ public class DataSource {
         }
     }
 
+    public boolean updateProgramData(String pdfPath, String gardenNumber, int tipsAndTricks){
+        try{
+            Statement statement = connection.createStatement();
+            statement.execute("UPDATE programData SET pdfPath = '"+pdfPath+"', gardenNumber = '"+gardenNumber+"', tipsAndTricks = "+tipsAndTricks);
+            System.out.println("Udało się edytować sklep");
+            return true;
+        } catch (SQLException e){
+            System.out.println("Problem z edyją rekoru.. "+e.getMessage());
+            return false;
+        }
+    }
+
     public String getPassportPath() {
         return passportPath;
     }
@@ -362,19 +382,19 @@ public class DataSource {
         this.passportPath = passportPath;
     }
 
-    public String getPathDB() {
-        return pathDB;
-    }
-
-    public void setPathDB(String pathDB) {
-        this.pathDB = pathDB;
-    }
-
     public String getGardenNumber() {
         return gardenNumber;
     }
 
     public void setGardenNumber(String gardenNumber) {
         this.gardenNumber = gardenNumber;
+    }
+
+    public int getTipsAndTricks() {
+        return tipsAndTricks;
+    }
+
+    public void setTipsAndTricks(int tipsAndTricks) {
+        this.tipsAndTricks = tipsAndTricks;
     }
 }

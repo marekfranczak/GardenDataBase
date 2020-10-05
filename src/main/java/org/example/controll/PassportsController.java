@@ -267,6 +267,7 @@ public class PassportsController implements Initializable {
             for(Flower flower : flowersList){
                 if(flowerIdList.contains(flower.getFlowerId())){
                     newFlower.add(flower);
+                    System.out.println("Dodaje kwiatek: "+flower.getNamePL());
                     PdfPTable upTable = new PdfPTable(2);
 
                     PdfPCell cell1 = new PdfPCell(new Paragraph());
