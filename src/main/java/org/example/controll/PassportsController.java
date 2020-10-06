@@ -302,7 +302,7 @@ public class PassportsController implements Initializable {
                 }
             }
 
-
+            pdfPTable.completeRow();
             document.add(pdfPTable);
 
             document.close();
