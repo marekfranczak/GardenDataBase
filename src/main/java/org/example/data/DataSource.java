@@ -55,11 +55,8 @@ public class DataSource {
             ResultSet result = statement.executeQuery("SELECT * FROM programData");
             while (result.next()) {
                 passportPath = result.getString("pdfPath");
-                System.out.println(passportPath);
                 gardenNumber = result.getString("gardenNumber");
-                System.out.println(gardenNumber);
                 tipsAndTricks = result.getInt("tipsAndTricks");
-                System.out.println(tipsAndTricks);
             }
             return true;
         } catch (SQLException e){
@@ -178,7 +175,6 @@ public class DataSource {
         try{
             Statement statement = connection.createStatement();
             statement.execute("INSERT INTO "+TABLE_FLOWERS+" ("+ COLUMN_FLOWER_NAME_PL+", "+COLUMN_FLOWER_NAME_LA +") VALUES('"+flowerNamePL+"', '"+flowerNameLA+"')");
-            System.out.println("Udało się dodać "+flowerNamePL+", "+flowerNameLA+" do "+TABLE_FLOWERS);
             return true;
         } catch (SQLException e){
             System.out.println("Problem z dodaniem rekoru.. " + e.getMessage());
@@ -190,7 +186,6 @@ public class DataSource {
         try{
             Statement statement = connection.createStatement();
             statement.execute("INSERT INTO "+TABLE_SHOPS+" ("+ COLUMN_SHOP_NAME+", "+COLUMN_SHOP_ADDRESS +") VALUES('"+shopName+"', '"+shopAdress+"')");
-            System.out.println("Udało się dodać "+shopName+", "+shopAdress+" do "+TABLE_SHOPS);
             return true;
         } catch (SQLException e){
             System.out.println("Problem z dodaniem rekoru.. " + e.getMessage());
@@ -206,10 +201,8 @@ public class DataSource {
                 if(shop.getName().equals(shopName))
                     shopId = shop.getShopId();
             }
-            System.out.println("Tworzenie paszportu..");
             Statement createPassport = connection.createStatement();
             createPassport.execute("INSERT INTO "+TABLE_PASSPORTS+"("+COLUMN_PASSPORT_DATE+", "+COLUMN_PASSPORT_SHOP_ID+") VALUES('"+date+"', "+shopId+")");
-
 
             int size2 = 0;
             List<Passport> listOfPassport = passportList();
@@ -217,11 +210,8 @@ public class DataSource {
             Passport obecnyPasssport;
             while(passportIterator.hasNext()){
                 obecnyPasssport = passportIterator.next();
-                System.out.println(obecnyPasssport.getPassportId());
                 size2 = obecnyPasssport.getPassportId();
             }
-
-            System.out.println("S:"+size2);
 
             String list = new String();
             for(int i=0; i<flowersValues.size(); i++){
@@ -230,12 +220,8 @@ public class DataSource {
                     list=list+", ";
             }
 
-            System.out.println("Tworzenie paszportu..");
-            System.out.println(list);
-
             Statement addFlowers = connection.createStatement();
             addFlowers.execute("INSERT INTO "+TABLE_FLOWERS_ARRANGEMENTS+"("+COLUMN_FLOWERS_ARRANGEMENT_FLOWER_ID+", "+COLUMN_FLOWERS_ARRANGEMENT_PASSPORT_ID+") VALUES "+list);
-            System.out.println("Stworzono tabele");
             return true;
         } catch (SQLException e){
             System.out.println("Problem ze stworzeniem paszportu.." + e.getMessage());
@@ -248,8 +234,6 @@ public class DataSource {
             Statement statement = connection.createStatement();
             statement.execute("DELETE FROM "+TABLE_FLOWERS_ARRANGEMENTS+" WHERE "+COLUMN_FLOWERS_ARRANGEMENT_FLOWER_ID+" = "+values.get(0));
             statement.execute("DELETE FROM "+TABLE_FLOWERS+" WHERE "+COLUMN_FLOWER_NAME_PL+" = '"+values.get(1)+"'");
-
-            System.out.println("Udało się usunąć "+values+" z " + TABLE_FLOWERS);
             return true;
         } catch (SQLException e){
             System.out.println("Problem z usunięciem rekoru.. "+e.getMessage());
@@ -262,7 +246,6 @@ public class DataSource {
             Statement statement = connection.createStatement();
             statement.execute("UPDATE "+TABLE_PASSPORTS+" SET "+COLUMN_PASSPORT_SHOP_ID+" = -1 WHERE "+COLUMN_PASSPORT_SHOP_ID+" = "+values.get(0));
             statement.execute("DELETE FROM "+TABLE_SHOPS+" WHERE "+COLUMN_SHOP_NAME+" = '"+values.get(1)+"'");
-            System.out.println("Udało się usunąć "+values.get(1)+" z " + TABLE_SHOPS);
             return true;
         } catch (SQLException e){
             System.out.println("Problem z usunięciem rekoru.. "+e.getMessage());
@@ -275,7 +258,6 @@ public class DataSource {
             Statement statement = connection.createStatement();
             statement.execute("DELETE FROM "+TABLE_FLOWERS_ARRANGEMENTS+" WHERE "+COLUMN_FLOWERS_ARRANGEMENT_PASSPORT_ID+" = "+values);
             statement.execute("DELETE FROM "+TABLE_PASSPORTS+" WHERE "+COLUMN_PASSPORT_ID+" = "+values);
-            System.out.println("Udało się usunąć "+values+" z " + TABLE_SHOPS);
             return true;
         } catch (SQLException e){
             System.out.println("Problem z usunięciem rekoru.. "+e.getMessage());
@@ -287,7 +269,6 @@ public class DataSource {
         try{
             Statement statement = connection.createStatement();
             statement.execute("UPDATE "+TABLE_SHOPS+" SET "+COLUMN_SHOP_NAME+" = '"+shopName+"', "+COLUMN_SHOP_ADDRESS+" = '"+shopAdress+"' WHERE "+COLUMN_SHOP_ID+" = "+shopId);
-            System.out.println("Udało się edytować sklep");
             return true;
         } catch (SQLException e){
             System.out.println("Problem z edyją rekoru.. "+e.getMessage());
@@ -299,7 +280,6 @@ public class DataSource {
         try{
             Statement statement = connection.createStatement();
             statement.execute("UPDATE "+TABLE_FLOWERS+" SET "+COLUMN_FLOWER_NAME_PL+" = '"+flowerNamePL+"', "+COLUMN_FLOWER_NAME_LA+" = '"+flowerNameLA+"' WHERE "+COLUMN_FLOWER_ID+" = "+flowerId);
-            System.out.println("Udało się edytować kwiat");
             return true;
         }catch (SQLException e){
             System.out.println("Problem z edycją rekoru.. "+e.getMessage());
@@ -311,7 +291,6 @@ public class DataSource {
         try{
             Statement statement = connection.createStatement();
             statement.execute("UPDATE "+TABLE_PASSPORTS+" SET "+COLUMN_PASSPORT_SHOP_ID+" = "+shopId+", "+COLUMN_PASSPORT_DATE+" = '"+passportDate+"' WHERE "+COLUMN_PASSPORT_ID+" = "+passportId);
-            System.out.println("Udało się edytować paszport");
             return true;
         } catch (SQLException e){
             System.out.println("Problem z edycją rekordu.. "+e.getMessage());
@@ -331,7 +310,6 @@ public class DataSource {
             }
             Statement addFlowers = connection.createStatement();
             addFlowers.execute("INSERT INTO " + TABLE_FLOWERS_ARRANGEMENTS + "(" + COLUMN_FLOWERS_ARRANGEMENT_FLOWER_ID + ", " + COLUMN_FLOWERS_ARRANGEMENT_PASSPORT_ID + ") VALUES " + list);
-            System.out.println("Dodano nowe kwiaty");
             return true;
         } catch (SQLException e) {
             System.out.println("Problem z dodaniem kwiatów.. " + e.getMessage());
@@ -349,12 +327,9 @@ public class DataSource {
                     list = list + ", ";
             }
             Statement deleteFlowers = connection.createStatement();
-            //deleteFlowers.execute("DELETE FROM "+TABLE_FLOWERS_ARRANGEMENTS+" WHERE "+COLUMN_FLOWERS_ARRANGEMENT_PASSPORT_ID+" = "+passportId+" AND "+COLUMN_FLOWERS_ARRANGEMENT_FLOWER_ID+" = "+flowersValues);
             for(int i=0; i<flowersValues.size(); i++){
                 deleteFlowers.execute("DELETE FROM "+TABLE_FLOWERS_ARRANGEMENTS+" WHERE "+COLUMN_FLOWERS_ARRANGEMENT_PASSPORT_ID+" = "+passportId+" AND "+COLUMN_FLOWERS_ARRANGEMENT_FLOWER_ID+" = "+flowersValues.get(i));
             }
-            //addFlowers.execute("INSERT INTO " + TABLE_FLOWERS_ARRANGEMENTS + "(" + COLUMN_FLOWERS_ARRANGEMENT_FLOWER_ID + ", " + COLUMN_FLOWERS_ARRANGEMENT_PASSPORT_ID + ") VALUES " + list);
-            System.out.println("Usunięto kwiaty z paszportu");
             return true;
         } catch (SQLException e) {
             System.out.println("Problem z dodaniem kwiatów.. " + e.getMessage());
@@ -366,7 +341,6 @@ public class DataSource {
         try{
             Statement statement = connection.createStatement();
             statement.execute("UPDATE programData SET pdfPath = '"+pdfPath+"', gardenNumber = '"+gardenNumber+"', tipsAndTricks = "+tipsAndTricks);
-            System.out.println("Udało się edytować sklep");
             return true;
         } catch (SQLException e){
             System.out.println("Problem z edyją rekoru.. "+e.getMessage());

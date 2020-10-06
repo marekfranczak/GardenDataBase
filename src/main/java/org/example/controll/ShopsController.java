@@ -113,7 +113,7 @@ public class ShopsController implements Initializable {
     private void edit(){
         if(editButton.isSelected()){
 
-            String shopChoosed = (String) listView.getSelectionModel().getSelectedItem();
+            String shopChoosed = listView.getSelectionModel().getSelectedItem();
 
             if(shopChoosed==null){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

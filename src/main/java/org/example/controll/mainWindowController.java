@@ -20,7 +20,6 @@ public class mainWindowController {
         PageLoader object = new PageLoader();
         Pane view = object.getPage("flowerswindow");
         borderPane.setCenter(view);
-        System.out.println("Wyświetlono kwiaty!");
     }
 
     @FXML
@@ -29,7 +28,6 @@ public class mainWindowController {
         PageLoader object = new PageLoader();
         Pane view = object.getPage("shopswindow");
         borderPane.setCenter(view);
-        System.out.println("Wyświetlono sklepy!");
     }
 
     @FXML
@@ -38,7 +36,6 @@ public class mainWindowController {
         PageLoader object = new PageLoader();
         Pane view = object.getPage("passportswindow");
         borderPane.setCenter(view);
-        System.out.println("Wyświetlono paszporty!");
     }
 
     @FXML
@@ -47,7 +44,6 @@ public class mainWindowController {
         PageLoader object = new PageLoader();
         Pane view = object.getPage("optionswindow");
         borderPane.setCenter(view);
-        System.out.println("Wyświetlono opcje!");
     }
 
 }

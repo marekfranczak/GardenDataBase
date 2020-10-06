@@ -117,7 +117,7 @@ public class FlowersController implements Initializable {
     private void edit(){
         if(editButton.isSelected()){
 
-            String shopChoosed = (String) listView.getSelectionModel().getSelectedItem();
+            String shopChoosed = listView.getSelectionModel().getSelectedItem();
 
             if(shopChoosed==null){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -132,7 +132,6 @@ public class FlowersController implements Initializable {
             listView.setEditable(false);
             flowerNameLA.setEditable(true);
             flowerNamePL.setEditable(true);
-
         }
         else{
             String x = flowerNamePL.getText();

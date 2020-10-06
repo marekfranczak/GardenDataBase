@@ -6,15 +6,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import org.example.data.DataSource;
-import org.example.data.Shop;
-import org.w3c.dom.Text;
 
-import javax.xml.crypto.Data;
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class optionsWindowController implements Initializable {
@@ -102,13 +96,11 @@ public class optionsWindowController implements Initializable {
             System.out.println("Nie wybrano miejsca zapisu");
         }
         pdfPath.setText(DataSource.getInstance().getPassportPath());
-        //refresh();
     }
 
     private void refresh(){
         pdfPath.setText(DataSource.getInstance().getPassportPath());
         gardenNumber.setText(DataSource.getInstance().getGardenNumber());
-        //tipsAndTricksNumber = DataSource.getInstance().getTipsAndTricks();
         if(DataSource.getInstance().getTipsAndTricks() > 0){
             hintsButton.setSelected(true);
             tipsAndTricks.setText("Wyłącz podpowiedzi");

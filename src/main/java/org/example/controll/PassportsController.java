@@ -82,8 +82,7 @@ public class PassportsController implements Initializable {
 
         Optional<ButtonType> result = dialog.showAndWait();
         if(result.isPresent() && result.get()==ButtonType.OK){
-            System.out.println(controller.add());
-            System.out.println("Wciśnięto OK");
+            controller.add();
         }
 
         refresh();
@@ -110,8 +109,7 @@ public class PassportsController implements Initializable {
         Optional<ButtonType> result = dialog.showAndWait();
         if(result.isPresent() && result.get()== ButtonType.OK){
             AddPassportController controller =  fxmlLoader.getController();
-            System.out.println(controller.end());
-            System.out.println("Wciśnięto OK");
+            controller.end();
         }
 
         refresh();
@@ -130,7 +128,6 @@ public class PassportsController implements Initializable {
         Optional<ButtonType> result = dialog.showAndWait();
         if(result.isPresent() && result.get()== ButtonType.OK) {
             if (DataSource.getInstance().deletePassport(content)) {
-                System.out.println("Udało się usunąc paszport");
                 refresh();
             }
         }
@@ -140,7 +137,7 @@ public class PassportsController implements Initializable {
     private void edit(){
         if(editButton.isSelected()){
 
-            String shopChoosed = (String) passportsListView.getSelectionModel().getSelectedItem();
+            String shopChoosed = passportsListView.getSelectionModel().getSelectedItem();
 
             if(shopChoosed==null){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -212,8 +209,7 @@ public class PassportsController implements Initializable {
 
         Optional<ButtonType> result = dialog.showAndWait();
         if(result.isPresent() && result.get()==ButtonType.OK){
-            System.out.println(controller.delete());
-            System.out.println("Wciśnięto OK");
+            controller.delete();
         }
 
         refresh();
@@ -267,7 +263,6 @@ public class PassportsController implements Initializable {
             for(Flower flower : flowersList){
                 if(flowerIdList.contains(flower.getFlowerId())){
                     newFlower.add(flower);
-                    System.out.println("Dodaje kwiatek: "+flower.getNamePL());
                     PdfPTable upTable = new PdfPTable(2);
 
                     PdfPCell cell1 = new PdfPCell(new Paragraph());
