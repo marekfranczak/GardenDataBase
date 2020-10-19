@@ -5,8 +5,6 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -51,8 +49,6 @@ public class PassportsController implements Initializable {
     @FXML
     private Button deleteFlowersButton;
     @FXML
-    private Button previewButton;
-    @FXML
     private Button generateButton;
 
     private List<Passport> passportList;
@@ -70,7 +66,7 @@ public class PassportsController implements Initializable {
         try{
             dialog.getDialogPane().setContent(fxmlLoader.load());
         } catch (IOException e){
-            System.out.println("Nie można otwrzyć okna.. "+e.getMessage());
+            System.out.println("Window cannot be opened.. "+e.getMessage());
             e.printStackTrace();
             return;
         }
@@ -98,7 +94,7 @@ public class PassportsController implements Initializable {
         try{
             dialog.getDialogPane().setContent(fxmlLoader.load());
         } catch (IOException e){
-            System.out.println("Nie można otworzyć okna.. " + e.getMessage());
+            System.out.println("Window cannot be opened.. " + e.getMessage());
             e.printStackTrace();
             return;
         }
@@ -155,24 +151,21 @@ public class PassportsController implements Initializable {
             deleteButton.setDisable(true);
             addFlowersButton.setDisable(true);
             deleteFlowersButton.setDisable(true);
-            previewButton.setDisable(true);
             generateButton.setDisable(true);
             shopName.setEditable(true);
             passportDate.setEditable(true);
-
-
         }
         else{
-            String x = shopName.getText();
-            String a = passportDate.getValue().toString();
+            String shopNameText = shopName.getText();
+            String passportDateText = passportDate.getValue().toString();
             int shopId = -1;
             for(Shop shop : shopList){
-                if (x.equals(shop.getName()))
+                if (shopNameText.equals(shop.getName()))
                     shopId = shop.getShopId();
             }
-            String z = passportNumber.getText();
-            int k = Integer.parseInt(z);
-            DataSource.getInstance().updatePassport(shopId, a, k);
+            String passportNumberText = passportNumber.getText();
+            int passportNumberInt = Integer.parseInt(passportNumberText);
+            DataSource.getInstance().updatePassport(shopId, passportDateText, passportNumberInt);
             editButton.setText("Edytuj");
             passportsListView.setEditable(true);
             shopName.setEditable(false);
@@ -181,7 +174,6 @@ public class PassportsController implements Initializable {
             deleteButton.setDisable(false);
             addFlowersButton.setDisable(false);
             deleteFlowersButton.setDisable(false);
-            previewButton.setDisable(false);
             generateButton.setDisable(false);
             refresh();
         }
@@ -197,7 +189,7 @@ public class PassportsController implements Initializable {
         try{
             dialog.getDialogPane().setContent(fxmlLoader.load());
         } catch (IOException e){
-            System.out.println("Nie można otwrzyć okna.. "+e.getMessage());
+            System.out.println("Window cannot be opened.. "+e.getMessage());
             e.printStackTrace();
             return;
         }
@@ -216,15 +208,10 @@ public class PassportsController implements Initializable {
     }
 
     @FXML
-    private void previewPassport(){
-
-    }
-
-    @FXML
     private void generatePassport(){
         try {
             Document document = new Document();
-            Integer passportID = Integer.parseInt(passportNumber.getText());
+            int passportID = Integer.parseInt(passportNumber.getText());
             List<Integer> flowerIdList = new ArrayList<>();
             flowersList = DataSource.getInstance().flowerList();
             List<Flower> newFlower = new ArrayList<>();
@@ -245,17 +232,17 @@ public class PassportsController implements Initializable {
             }
 
             PdfWriter.getInstance(document, new FileOutputStream(path+"\\"+fileName+".pdf"));
-
             document.open();
             PdfPTable pdfPTable = new PdfPTable(3);
 
-            Font f1 = FontFactory.getFont(String.valueOf(Font.FontFamily.TIMES_ROMAN), BaseFont.IDENTITY_H, true);
-            Font font1 = f1;
+            Font font = FontFactory.getFont(String.valueOf(Font.FontFamily.TIMES_ROMAN), BaseFont.IDENTITY_H, true);
+
             try {
                 BaseFont bf = BaseFont.createFont("C:\\Users\\FM\\IdeaProjects\\GOTOWE_PROJEKTY\\GardenDataBase\\arial.ttf", BaseFont.CP1250, BaseFont.EMBEDDED);
-                font1 = new Font(bf, 8);
+                font = new Font(bf, 8);
             }catch(IOException e){
-                System.out.println("Błąd wczytywania czcionki. "+e.getMessage());
+                System.out.println("Font loading error.."+e.getMessage());
+                e.printStackTrace();
             }
 
 
@@ -263,35 +250,36 @@ public class PassportsController implements Initializable {
             for(Flower flower : flowersList){
                 if(flowerIdList.contains(flower.getFlowerId())){
                     newFlower.add(flower);
-                    PdfPTable upTable = new PdfPTable(2);
+                    PdfPTable upCell = new PdfPTable(2);
 
-                    PdfPCell cell1 = new PdfPCell(new Paragraph());
+                    PdfPCell imageCell = new PdfPCell(new Paragraph());
                     try {
                         Image img = Image.getInstance("C:\\Users\\FM\\IdeaProjects\\GOTOWE_PROJEKTY\\GardenDataBase\\pobrane.png");
-                        cell1.addElement(img);
-                        cell1.setBorderColor(BaseColor.WHITE);
-                        upTable.addCell(cell1);
+                        imageCell.addElement(img);
+                        imageCell.setBorderColor(BaseColor.WHITE);
+                        upCell.addCell(imageCell);
                     } catch (IOException e){
-                        System.out.println("Nie udało się wczytać obrazu. "+e.getMessage());
+                        System.out.println("Image loading error.. "+e.getMessage());
+                        e.printStackTrace();
                     }
-                    PdfPCell cell2 = new PdfPCell(new Paragraph());
-                    Chunk chunk1 = new Chunk("Paszport ro\u015Blin/\nPlant Passport", font1);
-                    cell2.addElement(chunk1);
-                    cell2.setBorderColor(BaseColor.WHITE);
-                    upTable.addCell(cell2);
+                    PdfPCell textCell = new PdfPCell(new Paragraph());
+                    Chunk chunk1 = new Chunk("Paszport ro\u015Blin/\nPlant Passport", font);
+                    textCell.addElement(chunk1);
+                    textCell.setBorderColor(BaseColor.WHITE);
+                    upCell.addCell(textCell);
 
 
-                    PdfPCell cell3 = new PdfPCell(new Paragraph());
-                    cell3.addElement(upTable);
-                    cell3.setBorderColor(BaseColor.WHITE);
+                    PdfPCell mainCell = new PdfPCell(new Paragraph());
+                    mainCell.addElement(upCell);
+                    mainCell.setBorderColor(BaseColor.WHITE);
 
-                    PdfPCell cellDown = new PdfPCell(new Paragraph());
-                    Chunk chunk2 = new Chunk("A. "+flower.getNameLA()+"\nB. Numer gospodarstwa\nC. "+flower.getFlowerId()+"\nD. PL", font1);
-                    cellDown.addElement(chunk2);
-                    cellDown.setBorderColor(BaseColor.WHITE);
+                    PdfPCell downCell = new PdfPCell(new Paragraph());
+                    Chunk dataText = new Chunk("A. "+flower.getNameLA()+"\nB. Numer gospodarstwa\nC. "+flower.getFlowerId()+"\nD. PL", font);
+                    downCell.addElement(dataText);
+                    downCell.setBorderColor(BaseColor.WHITE);
                     PdfPTable pt = new PdfPTable(1);
-                    pt.addCell(cell3);
-                    pt.addCell(cellDown);
+                    pt.addCell(mainCell);
+                    pt.addCell(downCell);
 
                     pdfPTable.addCell(pt);
                 }
@@ -325,35 +313,33 @@ public class PassportsController implements Initializable {
         shopName.setEditable(false);
         passportNumber.setEditable(false);
         passportDate.setEditable(false);
-//        flowersListView.setEditable(false);
 
-        passportsListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> ov, String o, String t1) {
-                if(t1 != null) {
+        passportsListView.getSelectionModel().selectedItemProperty().addListener((ov, o, t1) -> {
+            if (!editButton.isSelected()) {
+                if (t1 != null) {
                     newFlowersList.clear();
-                    String nazwa = passportsListView.getSelectionModel().getSelectedItem();
+                    String selectedPassport = passportsListView.getSelectionModel().getSelectedItem();
+                    String[] passportStrings = selectedPassport.split("\\|");
                     for (Passport passport : passportList) {
-                        if (nazwa.equals(String.valueOf(passport.getPassportId()))) {
-                            for(Shop shop : shopList){
-                                if(shop.getShopId() == passport.getShopId())
+                        if (passportStrings[2].equals(String.valueOf(passport.getPassportId()))) {
+                            for (Shop shop : shopList) {
+                                if (shop.getShopId() == passport.getShopId())
                                     shopName.setText(shop.getName());
                             }
                             passportNumber.setText(String.valueOf(passport.getPassportId()));
-                            System.out.println(passport.getDate());
-                            if(!(passport.getDate().isEmpty())){
+                            if (!(passport.getDate().isEmpty())) {
                                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                                 LocalDate localDate = LocalDate.parse(passport.getDate(), formatter);
                                 passportDate.setValue(localDate);
-                            }else{
+                            } else {
                                 passportDate.setValue(null);
                             }
                         }
                     }
-                    for(FlowersArrangement flowersArrangement : flowersArrangementList){
-                        if(nazwa.equals(String.valueOf(flowersArrangement.getPassportId()))){
-                            for(Flower flower : flowersList){
-                                if(flowersArrangement.getFlowerId() == flower.getFlowerId()) {
+                    for (FlowersArrangement flowersArrangement : flowersArrangementList) {
+                        if (passportStrings[2].equals(String.valueOf(flowersArrangement.getPassportId()))) {
+                            for (Flower flower : flowersList) {
+                                if (flowersArrangement.getFlowerId() == flower.getFlowerId()) {
                                     newFlowersList.add(flower.getNamePL());
                                 }
                             }

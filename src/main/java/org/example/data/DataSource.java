@@ -116,8 +116,16 @@ public class DataSource {
     public ObservableList<String> showPassports(){
         List<String> newList = new ArrayList<>();
         List<Passport> passports = passportList();
+        String passportName = "";
         for(Passport passport : passports){
-            newList.add(String.valueOf(passport.getPassportId()));
+            int shopId = passport.getShopId();
+            for(Shop shop : shopList()){
+                if(shop.getShopId() == shopId){
+                    passportName = shop.getName() + "|";
+                }
+            }
+            passportName = passportName + passport.getDate()+"|"+passport.getPassportId();
+            newList.add(passportName);
         }
         ObservableList<String> observableList = FXCollections.observableList(newList);
         return observableList;

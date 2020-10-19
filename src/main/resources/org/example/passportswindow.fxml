@@ -21,11 +21,10 @@
             <VBox prefHeight="400.0" prefWidth="180.0" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="addButton" onAction="#addPassport" text="Nowy paszport" />
-                  <ToggleButton fx:id="editButton" onAction="#edit" text="Edytuj paszport Toggle" />
+                  <ToggleButton fx:id="editButton" onAction="#edit" text="Edytuj paszport" />
                   <Button fx:id="deleteButton" onAction="#deletePassport" text="Usuń paszport" />
                   <Button fx:id="addFlowersButton" onAction="#addFlowers" text="Dodaj kwiateki do paszportu" />
                   <Button fx:id="deleteFlowersButton" onAction="#deleteFlowers" text="Usuń kwiatek" />
-                  <Button fx:id="previewButton" onAction="#previewPassport" text="Podgląd paszportu" />
                   <Button fx:id="generateButton" onAction="#generatePassport" text="Generuj PDF" />
                </children>
             </VBox>

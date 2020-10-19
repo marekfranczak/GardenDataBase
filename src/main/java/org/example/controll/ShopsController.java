@@ -161,19 +161,21 @@ public class ShopsController implements Initializable {
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue <? extends String> ov, String o, String t1) {
-                if(t1 != null){
-                    String nazwa = listView.getSelectionModel().getSelectedItem();
-                    for(Shop shop : shopList){
-                        if(nazwa.equals(shop.getName())){
-                            shopName.setText(shop.getName());
-                            shopAddress.setText(shop.getAddress());
-                            shopNumber.setText(String.valueOf(shop.getShopId()));
+                if (!editButton.isSelected()) {
+                    if (t1 != null) {
+                        String nazwa = listView.getSelectionModel().getSelectedItem();
+                        for (Shop shop : shopList) {
+                            if (nazwa.equals(shop.getName())) {
+                                shopName.setText(shop.getName());
+                                shopAddress.setText(shop.getAddress());
+                                shopNumber.setText(String.valueOf(shop.getShopId()));
+                            }
                         }
                     }
                 }
             }
         });
-        listView.getSelectionModel().selectFirst();
     }
+
 
 }

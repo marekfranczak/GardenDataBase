@@ -163,19 +163,20 @@ public class FlowersController implements Initializable {
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> ov, String o, String t1) {
-                if(t1 != null){
-                    String nazwa = listView.getSelectionModel().getSelectedItem();
-                    for(Flower flower : flowerList){
-                        if(nazwa.equals(flower.getNamePL())){
-                            flowerNamePL.setText(flower.getNamePL());
-                            flowerNameLA.setText(flower.getNameLA());
-                            flowerNumber.setText(String.valueOf(flower.getFlowerId()));
+                if(!editButton.isSelected()) {
+                    if (t1 != null) {
+                        String nazwa = listView.getSelectionModel().getSelectedItem();
+                        for (Flower flower : flowerList) {
+                            if (nazwa.equals(flower.getNamePL())) {
+                                flowerNamePL.setText(flower.getNamePL());
+                                flowerNameLA.setText(flower.getNameLA());
+                                flowerNumber.setText(String.valueOf(flower.getFlowerId()));
+                            }
                         }
                     }
                 }
             }
         });
-        listView.getSelectionModel().selectFirst();
     }
 }
 
